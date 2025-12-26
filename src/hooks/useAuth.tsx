@@ -4,6 +4,27 @@ import { supabase } from "@/integrations/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
+
+const DEMO_MODE=import.meta.env.VITE_DEMO_MODE==="true";
+const createMockUser=(email:string,fullName:string):User=>({
+  id:"demo-user-id",
+  email,
+  app_metadata:{},
+  user_metadata:{full_name:fullName},
+  aud:"authenticated",
+  created_at:new Date().toISOString(),
+} as User);
+const createMockSession= (user: User):Session=>({
+  access_token:"demo-token",
+  refresh_token:"demo-refresh",
+  expires_in:3600,
+  token_type:"bearer",
+  user,
+} as Session);
+
+
+
+
 interface AuthContextType {
   user: User | null;
   session: Session | null;
@@ -11,6 +32,11 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   loading: boolean;
+
+
+  isDemoMode:boolean;
+
+  
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -23,6 +49,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { toast } = useToast();
 
   useEffect(() => {
+
+
+
+    if (DEMO_MODE){
+      setLoading(false);
+      return;
+    }
+
+    
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
@@ -55,6 +90,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signUp = async (email: string, password: string, fullName: string) => {
+
+
+    if(DEMO_MODE){
+      const mockUser=createMockUser(email,fullName);
+      const mockSession=createMockSession(mockUser);
+      setUser(mockUser);
+      setSession(mockSession);
+      toast({
+        title:"Account created!",
+        description:"You're now signed in.",
+      });
+      navigate("/dashboard");
+      return;
+    }
+
+
+
+    
     try {
       const redirectUrl = `${window.location.origin}/dashboard`;
       
@@ -97,6 +150,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signIn = async (email: string, password: string) => {
+
+
+    if (DEMO_MODE){
+      const mockUser=createMockUser(email,"Demo User");
+      const mockSession=createMockSession(mockUser);
+      setUser(mockUser);
+      setSession(mockSession);
+      toast({
+        title:"Signed in!",
+        description:"You're now signed in.",
+      });
+      navigate("/dashboard");
+      return;
+    }
+
+
+
+
+    
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -122,6 +194,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signOut = async () => {
+
+
+    if (DEMO_MODE){
+      setUser(null);
+      setSession(null);
+      toast({
+        title:"Signed Out!",
+        description:"You have been signed out.",
+      });
+      navigate("/")
+      return;
+    }
+
+
+
+    
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
@@ -142,7 +230,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, signUp, signIn, signOut, loading }}>
+    
+    <AuthContext.Provider value={{ user, session, signUp, signIn, signOut, loading, isDemoMode: DEMO_MODE}}>
+      
       {children}
     </AuthContext.Provider>
   );
