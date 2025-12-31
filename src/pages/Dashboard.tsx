@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Brain, LogOut, BookOpen, Info, BarChart3, ArrowLeft } from "lucide-react";
+import { Brain, LogOut, BookOpen, Info, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import UploadSection from "@/components/dashboard/UploadSection";
 import ManualInputSection from "@/components/dashboard/ManualInputSection";
 import ResultsSection from "@/components/dashboard/ResultsSection";
+import AnimatedBackground from "@/components/AnimatedBackground";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,9 +18,10 @@ import {
 
 export interface PredictionResult {
   id: string;
-  label: "Defective" | "Non-Defective";
+  label: "Defective" | "Non-Defective" | "Error";
   probability: number;
   features?: Record<string, number>;
+  limeFeatures?: Record<string, number>;
 }
 
 const Dashboard = () => {
@@ -50,9 +52,10 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative">
+      <AnimatedBackground />
       {/* Header */}
-      <header className="border-b border-border bg-card">
+      <header className="border-b border-border/50 bg-card/80 backdrop-blur-sm relative z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Brain className="w-8 h-8 text-primary" />
@@ -60,14 +63,6 @@ const Dashboard = () => {
           </div>
           
           <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              onClick={() => navigate(-1)}
-              className="hover:bg-secondary"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
 
             <Button
               variant="outline"
@@ -109,7 +104,7 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 relative z-10">
         <Tabs defaultValue="upload" className="space-y-6">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 bg-secondary">
             <TabsTrigger value="upload">CSV Upload</TabsTrigger>
