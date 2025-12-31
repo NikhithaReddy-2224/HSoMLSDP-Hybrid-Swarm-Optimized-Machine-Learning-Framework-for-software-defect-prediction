@@ -1,21 +1,72 @@
 import { Card } from "@/components/ui/card";
-import { Brain, Target, Zap, Shield, TrendingUp, Users } from "lucide-react";
+import { Brain, Target, Zap, Shield, TrendingUp, Users, LogOut, BookOpen, Info, BarChart3 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 const About = () => {
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/signin");
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative">
+      <AnimatedBackground />
       {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-4">
+      <header className="border-b border-border/50 bg-card/80 backdrop-blur-sm relative z-10">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Brain className="w-8 h-8 text-primary" />
             <h1 className="text-2xl font-bold">About HSoMLSDP</h1>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              onClick={() => navigate("/dashboard")}
+              className="border-border hover:bg-secondary"
+            >
+              <Brain className="w-4 h-4 mr-2" />
+              Dashboard
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => navigate("/notebook")}
+              className="border-border hover:bg-secondary"
+            >
+              <BookOpen className="w-4 h-4 mr-2" />
+              Notebook
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => navigate("/analytics")}
+              className="border-border hover:bg-secondary"
+            >
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Analytics
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              className="border-border hover:bg-secondary"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Introduction */}
           <Card className="p-8">
