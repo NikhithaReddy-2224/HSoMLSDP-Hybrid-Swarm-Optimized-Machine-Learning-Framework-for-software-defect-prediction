@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Brain, User, Calendar, TrendingUp } from "lucide-react";
+import { Brain, User, Calendar, TrendingUp, LogOut, BookOpen, Info, BarChart3 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 interface LoginHistory {
   id: string;
@@ -23,10 +26,16 @@ interface Prediction {
 }
 
 const Notebook = () => {
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
   const [loginHistory, setLoginHistory] = useState<LoginHistory[]>([]);
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/signin");
+  };
 
   useEffect(() => {
     if (user) {
@@ -73,19 +82,58 @@ const Notebook = () => {
   const nonDefectiveCount = predictions.filter(p => p.prediction_label === "Non-Defective").length;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative">
+      <AnimatedBackground />
       {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-4">
+      <header className="border-b border-border/50 bg-card/80 backdrop-blur-sm relative z-10">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Brain className="w-8 h-8 text-primary" />
             <h1 className="text-2xl font-bold">Notebook - Activity Log</h1>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              onClick={() => navigate("/dashboard")}
+              className="border-border hover:bg-secondary"
+            >
+              <Brain className="w-4 h-4 mr-2" />
+              Dashboard
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => navigate("/analytics")}
+              className="border-border hover:bg-secondary"
+            >
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Analytics
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => navigate("/about")}
+              className="border-border hover:bg-secondary"
+            >
+              <Info className="w-4 h-4 mr-2" />
+              About
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              className="border-border hover:bg-secondary"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 relative z-10">
         {/* Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <Card className="p-6">
