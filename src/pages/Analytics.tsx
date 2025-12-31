@@ -1,8 +1,20 @@
 import { Card } from "@/components/ui/card";
-import { Brain } from "lucide-react";
+import { Brain, LogOut, BookOpen, Info, BarChart3 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 const Analytics = () => {
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/signin");
+  };
+
   // Mock performance data across datasets
   const datasetPerformance = [
     { dataset: 'CM1', accuracy: 92.5, precision: 90.3, recall: 88.7, f1Score: 89.5 },
@@ -30,19 +42,58 @@ const Analytics = () => {
   const COLORS = ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444'];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative">
+      <AnimatedBackground />
       {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-4">
+      <header className="border-b border-border/50 bg-card/80 backdrop-blur-sm relative z-10">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Brain className="w-8 h-8 text-primary" />
             <h1 className="text-2xl font-bold">Analytics & Performance</h1>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              onClick={() => navigate("/dashboard")}
+              className="border-border hover:bg-secondary"
+            >
+              <Brain className="w-4 h-4 mr-2" />
+              Dashboard
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => navigate("/notebook")}
+              className="border-border hover:bg-secondary"
+            >
+              <BookOpen className="w-4 h-4 mr-2" />
+              Notebook
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => navigate("/about")}
+              className="border-border hover:bg-secondary"
+            >
+              <Info className="w-4 h-4 mr-2" />
+              About
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              className="border-border hover:bg-secondary"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 space-y-8">
+      <main className="container mx-auto px-4 py-8 space-y-8 relative z-10">
         {/* Dataset Performance */}
         <Card className="p-6">
           <h2 className="text-xl font-semibold mb-4">Performance Across Datasets</h2>
