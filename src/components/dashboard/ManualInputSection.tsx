@@ -87,16 +87,16 @@ const ManualInputSection = ({ setResults }: ManualInputSectionProps) => {
   };
 
   return (
-    <Card className="p-6 bg-card border-border">
-      <h2 className="text-2xl font-semibold mb-4">Manual Input</h2>
-      <p className="text-muted-foreground mb-6">
+    <Card className="p-6 bg-card-peach border-card-peach/30 text-card-peach-foreground">
+      <h2 className="text-2xl font-semibold mb-4 text-card-peach-foreground">Manual Input</h2>
+      <p className="text-card-peach-foreground/70 mb-6">
         Enter software metrics manually for instant defect prediction
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="loc">Lines of Code (LOC)</Label>
+            <Label htmlFor="loc" className="text-card-peach-foreground">Lines of Code (LOC)</Label>
             <Input
               id="loc"
               type="number"
@@ -104,12 +104,12 @@ const ManualInputSection = ({ setResults }: ManualInputSectionProps) => {
               value={formData.loc}
               onChange={(e) => setFormData({ ...formData, loc: e.target.value })}
               required
-              className="bg-secondary border-border"
+              className="bg-card-peach-foreground/10 border-card-peach-foreground/30 text-card-peach-foreground placeholder:text-card-peach-foreground/50"
             />
           </div>
 
           <div>
-            <Label htmlFor="complexity">Cyclomatic Complexity</Label>
+            <Label htmlFor="complexity" className="text-card-peach-foreground">Cyclomatic Complexity</Label>
             <Input
               id="complexity"
               type="number"
@@ -119,12 +119,12 @@ const ManualInputSection = ({ setResults }: ManualInputSectionProps) => {
                 setFormData({ ...formData, cyclomaticComplexity: e.target.value })
               }
               required
-              className="bg-secondary border-border"
+              className="bg-card-peach-foreground/10 border-card-peach-foreground/30 text-card-peach-foreground placeholder:text-card-peach-foreground/50"
             />
           </div>
 
           <div>
-            <Label htmlFor="coupling">Coupling</Label>
+            <Label htmlFor="coupling" className="text-card-peach-foreground">Coupling</Label>
             <Input
               id="coupling"
               type="number"
@@ -133,12 +133,12 @@ const ManualInputSection = ({ setResults }: ManualInputSectionProps) => {
               value={formData.coupling}
               onChange={(e) => setFormData({ ...formData, coupling: e.target.value })}
               required
-              className="bg-secondary border-border"
+              className="bg-card-peach-foreground/10 border-card-peach-foreground/30 text-card-peach-foreground placeholder:text-card-peach-foreground/50"
             />
           </div>
 
           <div>
-            <Label htmlFor="cohesion">Cohesion</Label>
+            <Label htmlFor="cohesion" className="text-card-peach-foreground">Cohesion</Label>
             <Input
               id="cohesion"
               type="number"
@@ -147,12 +147,12 @@ const ManualInputSection = ({ setResults }: ManualInputSectionProps) => {
               value={formData.cohesion}
               onChange={(e) => setFormData({ ...formData, cohesion: e.target.value })}
               required
-              className="bg-secondary border-border"
+              className="bg-card-peach-foreground/10 border-card-peach-foreground/30 text-card-peach-foreground placeholder:text-card-peach-foreground/50"
             />
           </div>
 
           <div>
-            <Label htmlFor="inheritanceDepth">Inheritance Depth</Label>
+            <Label htmlFor="inheritanceDepth" className="text-card-peach-foreground">Inheritance Depth</Label>
             <Input
               id="inheritanceDepth"
               type="number"
@@ -160,12 +160,12 @@ const ManualInputSection = ({ setResults }: ManualInputSectionProps) => {
               value={formData.inheritanceDepth}
               onChange={(e) => setFormData({ ...formData, inheritanceDepth: e.target.value })}
               required
-              className="bg-secondary border-border"
+              className="bg-card-peach-foreground/10 border-card-peach-foreground/30 text-card-peach-foreground placeholder:text-card-peach-foreground/50"
             />
           </div>
 
           <div>
-            <Label htmlFor="halsteadVolume">Halstead Volume</Label>
+            <Label htmlFor="halsteadVolume" className="text-card-peach-foreground">Halstead Volume</Label>
             <Input
               id="halsteadVolume"
               type="number"
@@ -174,12 +174,12 @@ const ManualInputSection = ({ setResults }: ManualInputSectionProps) => {
               value={formData.halsteadVolume}
               onChange={(e) => setFormData({ ...formData, halsteadVolume: e.target.value })}
               required
-              className="bg-secondary border-border"
+              className="bg-card-peach-foreground/10 border-card-peach-foreground/30 text-card-peach-foreground placeholder:text-card-peach-foreground/50"
             />
           </div>
 
           <div>
-            <Label htmlFor="fanIn">Fan In</Label>
+            <Label htmlFor="fanIn" className="text-card-peach-foreground">Fan In</Label>
             <Input
               id="fanIn"
               type="number"
@@ -187,12 +187,12 @@ const ManualInputSection = ({ setResults }: ManualInputSectionProps) => {
               value={formData.fanIn}
               onChange={(e) => setFormData({ ...formData, fanIn: e.target.value })}
               required
-              className="bg-secondary border-border"
+              className="bg-card-peach-foreground/10 border-card-peach-foreground/30 text-card-peach-foreground placeholder:text-card-peach-foreground/50"
             />
           </div>
 
           <div>
-            <Label htmlFor="fanOut">Fan Out</Label>
+            <Label htmlFor="fanOut" className="text-card-peach-foreground">Fan Out</Label>
             <Input
               id="fanOut"
               type="number"
@@ -200,12 +200,12 @@ const ManualInputSection = ({ setResults }: ManualInputSectionProps) => {
               value={formData.fanOut}
               onChange={(e) => setFormData({ ...formData, fanOut: e.target.value })}
               required
-              className="bg-secondary border-border"
+              className="bg-card-peach-foreground/10 border-card-peach-foreground/30 text-card-peach-foreground placeholder:text-card-peach-foreground/50"
             />
           </div>
 
           <div>
-            <Label htmlFor="defectDensity">Defect Density</Label>
+            <Label htmlFor="defectDensity" className="text-card-peach-foreground">Defect Density</Label>
             <Input
               id="defectDensity"
               type="number"
@@ -214,7 +214,7 @@ const ManualInputSection = ({ setResults }: ManualInputSectionProps) => {
               value={formData.defectDensity}
               onChange={(e) => setFormData({ ...formData, defectDensity: e.target.value })}
               required
-              className="bg-secondary border-border"
+              className="bg-card-peach-foreground/10 border-card-peach-foreground/30 text-card-peach-foreground placeholder:text-card-peach-foreground/50"
             />
           </div>
         </div>
